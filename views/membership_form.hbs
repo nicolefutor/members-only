@@ -1,0 +1,17 @@
+<h1>Change Membership Status</h1>
+<p>If you have the secret password, enter it to become a member</p>
+<p>If you have the admin password, enter it to become an admin</p>
+{{#if errors}}
+    <ul id="errors">
+        {{#each errors.errors}}
+            <li>{{this.msg}}</li>
+        {{/each}}
+    </ul>
+{{/if}}
+{{#if failure}}
+    <p id="failure">That was wrong...try again with a different password</p>
+{{/if}}
+<form action="/users/membership" method="post">
+    <input type="password" name="password" id="password">
+    <button type="submit">Submit</button>
+</form>
