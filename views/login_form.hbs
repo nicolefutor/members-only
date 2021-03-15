@@ -1,0 +1,16 @@
+<h1>Login<h1>
+{{#if errors}}
+    <ul id="errors">
+        {{#each errors.errors}}
+            <li>{{this.msg}}</li>
+        {{/each}}
+    </ul>
+{{/if}}
+{{#if failure}}
+    <p class='failure'>The login attempt was unsuccessful</p>
+{{/if}}
+<form method="POST" action='/users/login'>
+    <input class='form-control' type="text" name="username" id="username" placeholder='Username'><br>
+    <input class='form-control' type="password" name="password" id="password" placeholder="Password"><br>
+    <button class='btn btn-dark' type="submit">Submit</button>
+</form>

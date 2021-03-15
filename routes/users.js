@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const User = require('../models/user');
+const passport = require("passport");
 const { body, validationResult } = require('express-validator');
 var bcrypt = require('bcryptjs');
 
@@ -38,13 +39,17 @@ router.post('/new',
               next(err)
             }
             else {
-              res.redirect('/')
+              next()
             }
           })
         }
       })
     }
-  }
+  },
+  passport.authenticate("local", {
+                successRedirect: "/",
+                failureRedirect: "/"
+  })
 
 );
 
@@ -61,11 +66,22 @@ router.post('/membership',
     }
     else {
       if (req.body.password === process.env.MEMBER_PASSWORD) {
-        //TODO: change staus after implementing login
+        req.user.ismember = true
+        req.user.save((err, data) => {
+          if(err) {
+            return next(err)
+          }
+        })
         res.render('correct_password', {title: 'Success', status: 'member'})
       }
       else if (req.body.password === process.env.ADMIN_PASSWORD) {
-        //TODO: change status after implementing login
+        req.user.ismember = true
+        req.user.isadmin = true
+        req.user.save((err, data) => {
+          if(err) {
+            return next(err)
+          }
+        })
         res.render('correct_password', {title: 'Success', status: 'admin'})
       }
       else {
@@ -75,4 +91,30 @@ router.post('/membership',
   }
 )
 
+router.get('/login', (req, res) => {
+  res.render('login_form', {title: 'Login'})
+})
+
+router.post('/login', 
+  body('username', 'Username required').trim().isLength({ min: 1 }).escape(),
+  body('password', 'Password required').trim().isLength({ min: 1 }).escape(),
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.render('login_form', {errors, title: 'Login'})
+    }
+    else {
+      next()
+    }
+  },
+  passport.authenticate("local", {
+    successRedirect: '/',
+    failureRedirect: '/'
+  })
+)
+
+router.get('/logout', (req, res) => {
+  req.logout();
+  res.redirect("/");
+})
 module.exports = router;

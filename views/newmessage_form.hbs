@@ -1,0 +1,13 @@
+<h1>{{title}}</h1>
+{{#if errors}}
+    <ul id="errors">
+        {{#each errors.errors}}
+            <li>{{this.msg}}</li>
+        {{/each}}
+    </ul>
+{{/if}}
+<form method="POST" action='/newmessage'>
+    <input class='form-control' type="text" name="title" id="title" placeholder='Title'><br>
+    <textarea class='form-control' name="body" id="body" placeholder='Write your message here!'></textarea><br>
+    <button class='btn btn-dark' type="submit">Submit</button>
+</form>

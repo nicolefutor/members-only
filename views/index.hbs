@@ -1,2 +1,24 @@
 <h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+{{#each messages}}
+    <div class='card'>
+        <div class='card-body'>
+            <h5 class='card-title'>{{this.title}}</h5>
+            <p class='card-text'>
+                <small>
+                    {{#if ../currentUser.ismember}}
+                        {{this.user.username}}
+                    {{else}}
+                        Anonymous
+                    {{/if}}
+                </small>
+            </p>
+            <p class='card-text'>{{this.body}}</p>
+            {{#if ../currentUser.isadmin}}
+                <a href='/delete/{{this._id}}'>Delete</a>
+            {{/if}}
+        </div>
+        <div class='card-footer'>
+            <p>{{this.time}}</p>
+        </div>
+    </div>
+{{/each}}

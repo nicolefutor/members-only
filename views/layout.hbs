@@ -3,8 +3,28 @@
   <head>
     <title>{{title}}</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
   </head>
   <body>
-    {{{body}}}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark m-0">
+    <div class='container fluid' id='navbar'>
+      <div id="navbarNav">
+        <ul class="navbar-nav">
+          <li class='nav-item'><a class='nav-link' href="/">Home</a></li>
+          {{#if currentUser}}
+            <li class='nav-item'><a class='nav-link' href="/users/logout">Log out</a></li>
+            <li class='nav-item'><a class='nav-link' href="/users/membership">Change membership status</a></li>
+            <li class='nav-item'><a class='nav-link' href="/newmessage">Create a new message</a></li>
+          {{else}}
+            <li class='nav-item'><a class='nav-link' href="/users/new">Sign up</a></li>
+            <li class='nav-item'><a class='nav-link' href="/users/login">Log in</a></li>
+          {{/if}}
+        </ul>
+      </div>
+    </div>
+    </nav>
+    <div class='container'>
+      {{{body}}}
+    </div>
   </body>
 </html>
