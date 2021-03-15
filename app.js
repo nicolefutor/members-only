@@ -11,6 +11,8 @@ const mongoose = require('mongoose')
 const User = require('./models/user')
 const Message = require('./models/message')
 const bcrypt = require('bcryptjs')
+var compression = require('compression');
+var helmet = require('helmet');
 
 
 var indexRouter = require('./routes/index');
@@ -58,11 +60,14 @@ passport.deserializeUser(function(id, done) {
     done(err, user);
   });
 });
+
+app.use(helmet());
 app.use(session({ secret: process.env.SECRET, resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(compression());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/favicon.ico', express.static('public/images/favicon.ico'));
 
